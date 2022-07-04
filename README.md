@@ -1,3 +1,3 @@
 # DPS CANVAS
 
-Will be added
+readme file will be added. See src/index.html for example of use
