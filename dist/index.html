@@ -1,0 +1,112 @@
+<!doctype html><html lang="tr"><head><meta charset="UTF-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Document</title><style>body {
+        margin: 30px;
+        user-select: none;
+      }
+
+      .btn-group {
+        margin: 10px 0;
+      }
+
+      .btn-group button {
+        border: none;
+        outline: none;
+        padding: 10px 15px;
+        background-color: #e17055;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .d-none {
+        display: none;
+      }
+
+      .my {
+        margin: 10px 0;
+      }</style><script defer="defer" src="dps.js"></script></head><body><div class="btn-group btn-group1"><button class="square change-status" data-status="square">Square</button> <button class="circle change-status" data-status="circle">Circle</button> <button class="undo">Undo</button> <button class="get-coordinate">Get Coordinate</button></div><div class="btn-group btn-group2"><button class="add-square d-none" data-status="square">Add a Square</button> <button class="add-circle d-none" data-status="circle">Add a Circle</button></div><div class="my canvas-status"></div><canvas id="canvas"></canvas><div class="detail-box"></div><script>const ctx = document.getElementById("canvas");
+
+      window.onload = () => {
+        const btn = document.querySelector(".get-coordinate");
+        const addBtn = document.querySelector(".add-square");
+        const circleBtn = document.querySelector(".add-circle");
+        const btnGroup = document.querySelectorAll(".btn-group2 button");
+        const undo = document.querySelector(".undo");
+        const statusBx = document.querySelector(".canvas-status");
+        const sq = document.querySelector(".square");
+        const crc = document.querySelector(".circle");
+        const changeStatus = document.querySelectorAll(".change-status");
+        const detailBox = document.querySelector(".detail-box");
+
+        ctx.addEventListener("dps:click", ({ detail }) => {
+          if (!detail.item) return;
+
+          const [d1, d2] = detail.item;
+          detailBox.innerHTML = JSON.stringify({ ...d1, ...d2 });
+        });
+
+        const base = new dps.Base({
+          root: ctx,
+        });
+        const square = new dps.Square();
+        const circle = new dps.Circle();
+
+        base.canvasBackground = "#bdc3c7";
+
+        function randomInteger(min, max) {
+          return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function fillStatusBox() {
+          statusBx.innerHTML = base.case ? base.case : "";
+        }
+
+        addBtn.addEventListener("click", () => {
+          base.status = "square";
+          square.add({
+            width: 90,
+            x: randomInteger(50, 700),
+            y: randomInteger(50, 400),
+            color: "#2c3e50",
+            name: `masa${randomInteger(1, 100)}`,
+          });
+
+          base.drawAll();
+          fillStatusBox();
+        });
+
+        circleBtn.addEventListener("click", () => {
+          base.status = "circle";
+          circle.add({
+            radius: 50,
+            x: randomInteger(50, 700),
+            y: randomInteger(50, 400),
+            color: "#16a085",
+            name: `masa${randomInteger(100, 200)}`,
+          });
+
+          base.drawAll();
+          fillStatusBox();
+        });
+
+        btn.addEventListener("click", () => {
+          console.log(base.coordinate);
+        });
+
+        for (const iterator of changeStatus) {
+          iterator.addEventListener("click", () => {
+            btnGroup.forEach((item) => {
+              if (item.dataset.status === iterator.dataset.status) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+            base.status = iterator.dataset.status;
+            fillStatusBox();
+          });
+        }
+
+        undo.addEventListener("click", () => base.undo(base.case));
+
+        fillStatusBox();
+      };</script></body></html>
