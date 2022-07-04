@@ -1,6 +1,4 @@
 import Base from "./parent";
-import Circle from "./circle";
-import utils from "./utils/canvas";
 
 export default class Line {
   /**
@@ -24,11 +22,5 @@ export default class Line {
 
   static get line() {
     return Line.#lines;
-  }
-
-  static move(cx, cy) {
-    return Circle.lineCircle.find((item) =>
-      utils.circleCollision(cx, cy, 0, item.x, item.y, item.radius)
-    );
   }
 }
