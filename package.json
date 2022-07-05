@@ -1,6 +1,6 @@
 {
   "name": "dps_canvas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Html canvas üzerinde şekiller oluşturmanızı sağlar",
   "homepage": "https://github.com/ahmet687u/dps_canvas",
   "main": "dist/dps.js",

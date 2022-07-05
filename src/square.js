@@ -60,7 +60,7 @@ export default class Square {
     const { name, x, y, ...rest } = settings;
     const uid = uniqueId()
 
-    Square.#squares.push({ ...rest, x, y, uid });
+    Square.#squares.push({ ...rest, x, y, uid, name });
     Text.add({ uid, name, x: x + rest.width / 2, y: y + (rest.height || rest.width) / 2 });
   }
 }
