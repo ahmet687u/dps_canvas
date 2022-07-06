@@ -1,9 +1,9 @@
-import utils from "./utils/canvas";
-import { customClick } from "./utils/events";
 import Square from "./square";
 import Circle from "./circle";
 import Text from "./text";
 import Line from "./line";
+import { equalization } from "./utils/canvas";
+import { customClick } from "./utils/events";
 
 export default class Base {
   static ctx;
@@ -70,7 +70,7 @@ export default class Base {
       this.lastY = coordinateY;
       this.drawAll();
 
-      const eq = utils.equalization(
+      const eq = equalization(
         this.#movedItem[0],
         Square.square,
         this.root.width,

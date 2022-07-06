@@ -1,6 +1,7 @@
-import utils from "./utils/canvas";
+
 import Base from "./parent";
 import Text from "./text";
+import { squareCollision } from "./utils/canvas";
 import { uniqueId } from "./utils/helper";
 
 export default class Square {
@@ -8,6 +9,10 @@ export default class Square {
    * @private
    */
   static #squares = [];
+
+  constructor() {
+    this.type = "square"
+  }
 
   static draw({ x, y, width, height, color }) {
     Base.ctx.beginPath();
@@ -24,7 +29,7 @@ export default class Square {
   }
 
   static currents(x, y) {
-    const currentSquare = Square.#squares.find(item => utils.squareCollision(x, y, {
+    const currentSquare = Square.#squares.find(item => squareCollision(x, y, {
       width: item.width,
       height: item.height,
       x: item.x,
@@ -60,7 +65,7 @@ export default class Square {
     const { name, x, y, ...rest } = settings;
     const uid = uniqueId()
 
-    Square.#squares.push({ ...rest, x, y, uid, name });
+    Square.#squares.push({ ...rest, x, y, uid, name, type: this.type });
     Text.add({ uid, name, x: x + rest.width / 2, y: y + (rest.height || rest.width) / 2 });
   }
 }

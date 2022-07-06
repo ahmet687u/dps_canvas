@@ -1,6 +1,6 @@
-import utils from "./utils/canvas";
 import Base from "./parent";
 import Text from "./text";
+import { circleCollision } from "./utils/canvas";
 import { uniqueId } from "./utils/helper";
 
 export default class Circle {
@@ -8,6 +8,10 @@ export default class Circle {
    * @private
    */
   static #circles = [];
+
+  constructor() {
+    this.type = "circle"
+  }
 
   static draw({ x, y, radius, color, line }) {
     Base.ctx.beginPath();
@@ -25,7 +29,7 @@ export default class Circle {
 
   static currents(x, y) {
     const currentCircle = Circle.#circles.find((item) =>
-      utils.circleCollision(x, y, 0, item.x, item.y, item.radius)
+      circleCollision(x, y, 0, item.x, item.y, item.radius)
     )
     const currentText = Text.text.find(c => c.uid === currentCircle?.uid);
 
@@ -57,7 +61,7 @@ export default class Circle {
     const { name, id, x, y, ...rest } = params
     const uid = uniqueId()
 
-    Circle.#circles.push({ ...rest, x, y, name, uid });
+    Circle.#circles.push({ ...rest, x, y, name, uid, type: this.type });
     Text.add({ name, x, y, uid });
   }
 }
